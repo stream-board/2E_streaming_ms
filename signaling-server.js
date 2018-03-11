@@ -31,7 +31,7 @@ main.get('/', function(req, res){ res.sendFile(__dirname + '/client.html'); });
 /*************************/
 var channels = {};
 var sockets = {};
-
+var masters = {};
 /**
  * Users will connect to the signaling server, after which they'll issue a "join"
  * to join a particular channel. The signaling server keeps track of all sockets
@@ -68,6 +68,7 @@ io.sockets.on('connection', function (socket) {
 
         if (!(channel in channels)) {
             channels[channel] = {};
+            masters[channel] = socket.id;
         }
 
         for (id in channels[channel]) {
@@ -116,4 +117,36 @@ io.sockets.on('connection', function (socket) {
             sockets[peer_id].emit('sessionDescription', {'peer_id': socket.id, 'session_description': session_description});
         }
     });
+    socket.on('relayRoomMaster', function(request) {
+        var channel_name = request;
+        var requester = socket.id;
+        if (!(channel_name in channels)){
+            console.log( "room master: " + socket.id  );
+            sockets[requester].emit('roomMaster', {
+                'peer_id': socket.id, 
+                'roomMaster': socket.id, 
+                'isRoomMaster': true });
+        }else{
+            console.log( "room master: " + masters[channel_name]  );
+            sockets[requester].emit('roomMaster', {
+                    'peer_id': socket.id, 
+                    'roomMaster': masters[channel_name], 
+                    'isRoomMaster': masters[channel_name] == socket.id });
+        }
+    });
+    socket.on('relayAskForWord', function(request) {
+        var channel_name = request.channel;
+        var requester = socket.id;
+        roomMaster = masters[channel_name];
+        console.log( "roommaster: \n\n\n\n\n\n\n\n\n" + roomMaster )
+        sockets[roomMaster].emit( 'askForWord', {'asker': requester} );
+    });
+    socket.on('relayMuteAll', function(request) {
+        var channel_name = request.channel;
+        console.log( "client: id \n\n\n\n\n\n\n\n\n\n\n\n" + channels[channel_name] )
+        for (id in channels[channel_name]) {
+            channels[channel_name][id].emit('muteAll', {'peer_id': socket.id});
+        }
+    });
+    
 });
