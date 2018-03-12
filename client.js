@@ -1,5 +1,5 @@
 /** CONFIG **/
-var SIGNALING_SERVER = "ws://172.31.71.119:8080";
+var SIGNALING_SERVER = "ws://54.224.164.98:8444";
 var USE_AUDIO = true;
 var USE_VIDEO = true;
 var DEFAULT_CHANNEL = 'some-global-channel-name';
@@ -107,8 +107,9 @@ function init() {
             peer_media_elements[peer_id] = remote_media;
             $('body').append(remote_media);
             attachMediaStream(remote_media[0], event.stream);
-            if( peer_id != speaker  ){
+            if( peer_id != speaker && !roomMaster   ){
                 $('#' + peer_id).css( "border", "9px solid red" );
+		$('#local_video').css( "border", "9px solid red" );
                 //remote_media.getAudioTracks()[0].enabled = false;
             }
             
@@ -241,8 +242,8 @@ function init() {
     signaling_socket.on('muteAll', function(config) {
         var my_peer_id = config.my_peer_id;
         master_id = config.master;
-        $('video').not('#local_video').css( "border", "9px solid red" );
         if (!room_master){
+            $('video').not('#local_video').css( "border", "9px solid red" );
             console.log( "Muting localstream audio" );
             local_media_stream.getAudioTracks()[0].enabled = false;
             document.getElementById("muted").innerHTML = "Muted: True";
