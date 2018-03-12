@@ -14,13 +14,16 @@ var signaling_socket = null;   /* our socket.io connection to our webserver */
 var local_media_stream = null; /* our own microphone / webcam */
 var peers = {};                /* keep track of our peer connections, indexed by peer_id (aka socket.io id) */
 var peer_media_elements = {};  /* keep track of our <video>/<audio> tags, indexed by peer_id */
-var room_master = null;
+var peer_html_videos = {};
+var room_master = false;
 var channel;
+var speaker = null;
+var am_i_speaker = false;
 function init() {
     console.log("Connecting to signaling server");
     signaling_socket = io(SIGNALING_SERVER);
     //signaling_socket = io();
-
+    checkRoomMaster( channel );
     signaling_socket.on('connect', function() {
         console.log("Connected to signaling server");
         setup_local_media(function() {
@@ -45,6 +48,7 @@ function init() {
 
         peers = {};
         peer_media_elements = {};
+        peer_html_videos = {}
     });
     function join_chat_channel(channel, userdata) {
         signaling_socket.emit('join', {"channel": channel, "userdata": userdata});
@@ -65,6 +69,8 @@ function init() {
     signaling_socket.on('addPeer', function(config) {
         console.log('Signaling server said to add peer:', config);
         var peer_id = config.peer_id;
+        speaker = config.speaker;
+        am_i_speaker = config.is_speaker;
         if (peer_id in peers) {
             /* This could happen if the user joins multiple channels where the other peer is also in. */
             console.log("Already connected to peer ", peer_id);
@@ -97,9 +103,15 @@ function init() {
                 remote_media.attr("muted", "true");
             }
             remote_media.attr("controls", "");
+            remote_media.attr("id", peer_id);
             peer_media_elements[peer_id] = remote_media;
             $('body').append(remote_media);
             attachMediaStream(remote_media[0], event.stream);
+            if( peer_id != speaker  ){
+                $('#' + peer_id).css( "border", "9px solid red" );
+                //remote_media.getAudioTracks()[0].enabled = false;
+            }
+            
         }
 
         /* Add our local stream */
@@ -227,6 +239,9 @@ function init() {
     });
 
     signaling_socket.on('muteAll', function(config) {
+        var my_peer_id = config.my_peer_id;
+        master_id = config.master;
+        $('video').not('#local_video').css( "border", "9px solid red" );
         if (!room_master){
             console.log( "Muting localstream audio" );
             local_media_stream.getAudioTracks()[0].enabled = false;
@@ -270,9 +285,17 @@ function setup_local_media(callback, errorback) {
             local_media.attr("autoplay", "autoplay");
             local_media.attr("muted", "true"); /* always mute ourselves by default */
             local_media.attr("controls", "");
+            local_media.attr( "id", "local_video" );
             $('body').append(local_media);
             attachMediaStream(local_media[0], stream);
-
+            document.getElementById("muted").innerHTML = "Muted: False";
+            console.log( "am_i_speaker: " + am_i_speaker );
+                console.log( "am_i_master: " +room_master );
+            if( !am_i_speaker && !room_master ){
+                
+                local_media_stream.getAudioTracks()[0].enabled = false;
+                document.getElementById("muted").innerHTML = "Muted: True";
+            }
             if (callback) callback();
         },
         function() { /* user denied access to a/v */

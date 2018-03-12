@@ -9,9 +9,9 @@ var PORT = 8080;
 /*************/
 var express = require('express');
 var http = require('http');
-var bodyParser = require('body-parser')
-var main = express()
-var server = http.createServer(main)
+var bodyParser = require('body-parser');
+var main = express();
+var server = http.createServer(main);
 var io  = require('socket.io').listen(server);
 //io.set('log level', 2);
 
@@ -32,6 +32,7 @@ main.get('/', function(req, res){ res.sendFile(__dirname + '/client.html'); });
 var channels = {};
 var sockets = {};
 var masters = {};
+var speakers = {}
 /**
  * Users will connect to the signaling server, after which they'll issue a "join"
  * to join a particular channel. The signaling server keeps track of all sockets
@@ -68,11 +69,14 @@ io.sockets.on('connection', function (socket) {
 
         if (!(channel in channels)) {
             channels[channel] = {};
-            masters[channel] = socket.id;
         }
 
         for (id in channels[channel]) {
-            channels[channel][id].emit('addPeer', {'peer_id': socket.id, 'should_create_offer': false});
+            channels[channel][id].emit('addPeer', {
+                'peer_id': socket.id, 
+                'should_create_offer': false, 
+                'speaker': speakers[channel],
+                'is_speaker': speakers[channel] == socket.id});
             socket.emit('addPeer', {'peer_id': id, 'should_create_offer': true});
         }
 
@@ -120,7 +124,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('relayRoomMaster', function(request) {
         var channel_name = request;
         var requester = socket.id;
-        if (!(channel_name in channels)){
+        if (!(channel_name in masters)){
+            masters[channel_name] = socket.id;
             console.log( "room master: " + socket.id  );
             sockets[requester].emit('roomMaster', {
                 'peer_id': socket.id, 
@@ -145,7 +150,7 @@ io.sockets.on('connection', function (socket) {
         var channel_name = request.channel;
         console.log( "client: id \n\n\n\n\n\n\n\n\n\n\n\n" + channels[channel_name] )
         for (id in channels[channel_name]) {
-            channels[channel_name][id].emit('muteAll', {'peer_id': socket.id});
+            channels[channel_name][id].emit('muteAll', {'my_peer_id': id, 'master':masters[channel_name]});
         }
     });
     
