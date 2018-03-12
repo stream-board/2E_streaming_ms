@@ -1,5 +1,5 @@
 /** CONFIG **/
-var SIGNALING_SERVER = "ws://localhost:8080";
+var SIGNALING_SERVER = "ws://172.31.71.119:8080";
 var USE_AUDIO = true;
 var USE_VIDEO = true;
 var DEFAULT_CHANNEL = 'some-global-channel-name';
