@@ -16,6 +16,7 @@ var peers = {};                /* keep track of our peer connections, indexed by
 var peer_media_elements = {};  /* keep track of our <video>/<audio> tags, indexed by peer_id */
 var peer_html_videos = {};
 var room_master = false;
+var master = null;
 var channel;
 var speaker = null;
 var am_i_speaker = false;
@@ -107,11 +108,14 @@ function init() {
             peer_media_elements[peer_id] = remote_media;
             $('body').append(remote_media);
             attachMediaStream(remote_media[0], event.stream);
-            if( peer_id != speaker && !roomMaster   ){
+	    console.log( "speaker in css: " + am_i_speaker );
+	    console.log( "master in css: " + room_master);
+            if( peer_id != speaker && peer_id != master ){
                 $('#' + peer_id).css( "border", "9px solid red" );
-		$('#local_video').css( "border", "9px solid red" );
                 //remote_media.getAudioTracks()[0].enabled = false;
-            }
+            }if( !room_master ){
+		$('#local_video').css( "border", "9px solid red" );
+	    }
             
         }
 
@@ -227,6 +231,7 @@ function init() {
     signaling_socket.on('roomMaster', function(config) {
         console.log('roomMaster: ', config);
         room_master = config.isRoomMaster;
+	master = config.roomMaster;
     });
 
     signaling_socket.on('askForWord', function(config) {
