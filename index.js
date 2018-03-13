@@ -22,3 +22,4 @@ server.listen(PORT, null, function() {
 
 main.get('/', function(req, res){ res.sendFile(__dirname + '/client.html'); });
 main.get('/client.js', function(req, res){ res.sendFile(__dirname + '/client.js'); });
+main.get('/local.txt', function(req, res){ res.sendFile(__dirname + '/local.txt'); });

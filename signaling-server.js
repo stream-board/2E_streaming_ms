@@ -32,7 +32,7 @@ main.get('/', function(req, res){ res.sendFile(__dirname + '/client.html'); });
 var channels = {};
 var sockets = {};
 var masters = {};
-var speakers = {}
+var speakers = {};
 /**
  * Users will connect to the signaling server, after which they'll issue a "join"
  * to join a particular channel. The signaling server keeps track of all sockets
@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
     console.log("["+ socket.id + "] connection accepted");
     socket.on('disconnect', function () {
         for (var channel in socket.channels) {
-            part(channel);
+            part(channel, socket.id);
         }
         console.log("["+ socket.id + "] disconnected");
         delete sockets[socket.id];
@@ -61,7 +61,8 @@ io.sockets.on('connection', function (socket) {
         console.log("["+ socket.id + "] join ", config);
         var channel = config.channel;
         var userdata = config.userdata;
-
+        if( speakers[channel] == null )
+            speakers[channel] = {};
         if (channel in socket.channels) {
             console.log("["+ socket.id + "] ERROR: already joined ", channel);
             return;
@@ -70,21 +71,25 @@ io.sockets.on('connection', function (socket) {
         if (!(channel in channels)) {
             channels[channel] = {};
         }
-
+        console.log( "channeeeeels: \n\n\n\n\n\n\n\n\n" + channels[channel] );
         for (id in channels[channel]) {
             channels[channel][id].emit('addPeer', {
                 'peer_id': socket.id, 
-                'should_create_offer': false, 
-                'speaker': speakers[channel],
-                'is_speaker': speakers[channel] == socket.id});
-            socket.emit('addPeer', {'peer_id': id, 'should_create_offer': true});
+                'should_create_offer': false,
+                'speakers': speakers[channel],
+                'is_speaker': socket.id in speakers[channel]});
+            socket.emit('addPeer', {
+                'peer_id': id,
+                'should_create_offer': true,
+                'speakers': speakers[channel]
+                });
         }
 
         channels[channel][socket.id] = socket;
         socket.channels[channel] = channel;
     });
 
-    function part(channel) {
+    function part(channel, socket_id) {
         console.log("["+ socket.id + "] part ");
 
         if (!(channel in socket.channels)) {
@@ -93,11 +98,27 @@ io.sockets.on('connection', function (socket) {
         }
 
         delete socket.channels[channel];
-        delete channels[channel][socket.id];
 
         for (id in channels[channel]) {
             channels[channel][id].emit('removePeer', {'peer_id': socket.id});
             socket.emit('removePeer', {'peer_id': id});
+        }
+        if( socket_id in speakers[channel] )
+            delete speakers[channel][id];
+        console.log( "disconected socket: \n\n\n\n\n\n" + socket_id );
+        console.log( "channel master: \n\n\n\n\n\n" + masters[channel] );
+        if (socket_id == masters[channel]){
+            for (id in channels[channel]) {
+                channels[channel][id].emit('roomDestroyed');
+            }
+            delete channels[channel];
+            delete masters[channel];
+            delete speakers[channel];
+
+        }else if(masters[channel] == null){
+            console.log("["+ socket.id + "] WARN: channel does not exist anymore", channel);
+        }else{
+            delete channels[channel][socket.id];
         }
     }
     socket.on('part', part);
@@ -142,13 +163,31 @@ io.sockets.on('connection', function (socket) {
     socket.on('relayAskForWord', function(request) {
         var channel_name = request.channel;
         var requester = socket.id;
-        roomMaster = masters[channel_name];
-        console.log( "roommaster: \n\n\n\n\n\n\n\n\n" + roomMaster )
+        var roomMaster = masters[channel_name];
+        console.log( "roommaster: \n\n\n\n\n\n\n\n\n" + roomMaster );
         sockets[roomMaster].emit( 'askForWord', {'asker': requester} );
     });
+    socket.on('relayGiveWord', function(request) {
+        var channel_name = request.channel;
+        var asker = request.asker;
+        if(speakers[channel_name] == null)
+            speakers[channel_name] = {};
+        speakers[channel_name][asker] = true;
+        for (id in channels[channel_name]) {
+            channels[channel_name][id].emit( 'giveWord',
+                {
+                    "speakers": speakers[channel_name],
+                    "am_i_speaker": id in speakers[channel_name]
+                });
+        }
+    });
+
+
+
     socket.on('relayMuteAll', function(request) {
         var channel_name = request.channel;
-        console.log( "client: id \n\n\n\n\n\n\n\n\n\n\n\n" + channels[channel_name] )
+        console.log( "client: id \n\n\n\n\n\n\n\n\n\n\n\n" + channels[channel_name] );
+        speakers[channel_name] = {};
         for (id in channels[channel_name]) {
             channels[channel_name][id].emit('muteAll', {'my_peer_id': id, 'master':masters[channel_name]});
         }

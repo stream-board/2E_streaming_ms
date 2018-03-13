@@ -1,5 +1,6 @@
 /** CONFIG **/
-var SIGNALING_SERVER = "ws://54.224.164.98:8444";
+//var SIGNALING_SERVER = "ws://54.224.164.98:8444";
+var SIGNALING_SERVER = "ws://localhost:8444";
 var USE_AUDIO = true;
 var USE_VIDEO = true;
 var DEFAULT_CHANNEL = 'some-global-channel-name';
@@ -18,7 +19,7 @@ var peer_html_videos = {};
 var room_master = false;
 var master = null;
 var channel;
-var speaker = null;
+var speakers = {};
 var am_i_speaker = false;
 function init() {
     console.log("Connecting to signaling server");
@@ -70,7 +71,11 @@ function init() {
     signaling_socket.on('addPeer', function(config) {
         console.log('Signaling server said to add peer:', config);
         var peer_id = config.peer_id;
-        speaker = config.speaker;
+        console.log( "allll" );
+        console.log( config);
+        speakers = config.speakers;
+        console.log( "speakeeeers: ");
+        console.log(config.is_speaker);
         am_i_speaker = config.is_speaker;
         if (peer_id in peers) {
             /* This could happen if the user joins multiple channels where the other peer is also in. */
@@ -95,7 +100,7 @@ function init() {
                     }
                 });
             }
-        }
+        };
         peer_connection.onaddstream = function(event) {
             console.log("onAddStream", event);
             var remote_media = USE_VIDEO ? $("<video>") : $("<audio>");
@@ -108,16 +113,15 @@ function init() {
             peer_media_elements[peer_id] = remote_media;
             $('body').append(remote_media);
             attachMediaStream(remote_media[0], event.stream);
-	    console.log( "speaker in css: " + am_i_speaker );
-	    console.log( "master in css: " + room_master);
-            if( peer_id != speaker && peer_id != master ){
+            console.log( "speakers in css: " + am_i_speaker );
+            console.log( "master in css: " + room_master);
+            if( !(peer_id in speakers) && peer_id != master ){
                 $('#' + peer_id).css( "border", "9px solid red" );
                 //remote_media.getAudioTracks()[0].enabled = false;
             }if( !room_master ){
-		$('#local_video').css( "border", "9px solid red" );
-	    }
-            
-        }
+                $('#local_video').css( "border", "9px solid red" );
+            }
+        };
 
         /* Add our local stream */
         peer_connection.addStream(local_media_stream);
@@ -239,7 +243,11 @@ function init() {
         var accept = document.createElement("BUTTON");
         var info = document.createTextNode("Dar la palabra a " + config.asker);
         accept.id = config.asker;
-        accept.onclick = giveWord;
+        accept.onclick = function giveWord() {
+            signaling_socket.emit('relayGiveWord', {"channel": channel, "asker":config.asker});
+
+            accept.parentNode.removeChild(accept);
+        };
         accept.appendChild(info);
         $('body').append(accept);
     });
@@ -247,12 +255,34 @@ function init() {
     signaling_socket.on('muteAll', function(config) {
         var my_peer_id = config.my_peer_id;
         master_id = config.master;
+        speakers = {};
+        setSpeakers( speakers, master_id, room_master );
         if (!room_master){
-            $('video').not('#local_video').css( "border", "9px solid red" );
             console.log( "Muting localstream audio" );
             local_media_stream.getAudioTracks()[0].enabled = false;
             document.getElementById("muted").innerHTML = "Muted: True";
         }
+    });
+
+    signaling_socket.on('giveWord', function(config) {
+        am_i_speaker = config.am_i_speaker;
+        speakers = config.speakers;
+
+        for (var speaker in speakers) {
+            $('#' + speaker).css( "border", "" );
+        }
+
+        if( am_i_speaker ){
+            local_media_stream.getAudioTracks()[0].enabled = true;
+            $('#local_video').css( "border", "" );
+            document.getElementById("muted").innerHTML = "Muted: False";
+        }
+    });
+
+    signaling_socket.on('roomDestroyed', function(config) {
+        document.body.innerHTML = '';
+        var info = document.createTextNode("Tu sala ha cerrado");
+        $('body').append(info);
     });
 
 }
@@ -292,13 +322,15 @@ function setup_local_media(callback, errorback) {
             local_media.attr("muted", "true"); /* always mute ourselves by default */
             local_media.attr("controls", "");
             local_media.attr( "id", "local_video" );
+            var track = $("<track>");
+            track.attr( "src", "local.txt" );
+            local_media.append(track);
             $('body').append(local_media);
             attachMediaStream(local_media[0], stream);
             document.getElementById("muted").innerHTML = "Muted: False";
             console.log( "am_i_speaker: " + am_i_speaker );
                 console.log( "am_i_master: " +room_master );
             if( !am_i_speaker && !room_master ){
-                
                 local_media_stream.getAudioTracks()[0].enabled = false;
                 document.getElementById("muted").innerHTML = "Muted: True";
             }
@@ -316,10 +348,19 @@ function amIMaster() {
 function askForWord() {
     signaling_socket.emit('relayAskForWord', {"channel": channel});
 }
-function giveWord() {
-    //signaling_socket.emit('relayAskForWord', {"channel": channel});
-}
+
 function muteAll() {
     console.log( "Muting clients" );
     signaling_socket.emit('relayMuteAll', {"channel": channel});
+}
+
+function setSpeakers(speakers, master) {
+    console.log( "rendering speakers" );
+    if(!room_master)
+        $('video').css( "border", "9px solid red" );
+    else
+        $('video').not('#local_video').css( "border", "9px solid red" );
+    for( var speaker in speakers )
+        $('#' + speaker).css( "border", "" );
+    $('#' + master).css( "border", "" );
 }
