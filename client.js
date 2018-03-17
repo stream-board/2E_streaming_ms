@@ -39,7 +39,7 @@ function init() {
     initVars();
     signaling_socket = io(SIGNALING_SERVER);
     //signaling_socket = io();
-    checkRoomMaster( channel );
+    //checkRoomMaster( channel );
     signaling_socket.on('connect', function() {
         console.log("Connected to signaling server");
         setup_local_media(function() {
@@ -73,6 +73,7 @@ function init() {
         signaling_socket.emit('part', channel);
     }
     function checkRoomMaster(channel) {
+        console.log( "masterNow: " + room_master );
         signaling_socket.emit('relayRoomMaster', channel);
     }
 
