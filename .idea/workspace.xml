@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7c11681-5b15-456f-ae23-e1ddd490117b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/client.js" afterPath="$PROJECT_DIR$/client.js" />
       <change beforePath="$PROJECT_DIR$/signaling-server.js" afterPath="$PROJECT_DIR$/signaling-server.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="signaling-server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/signaling-server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="68" column="9" lean-forward="true" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
+            <state relative-caret-position="146">
+              <caret line="149" column="57" lean-forward="false" selection-start-line="149" selection-start-column="57" selection-end-line="149" selection-end-column="57" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -32,7 +31,7 @@
       <file leaf-file-name="client.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
+            <state relative-caret-position="594">
               <caret line="66" column="19" lean-forward="false" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
               <folding />
             </state>
@@ -75,7 +74,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>local_media_stream.getAudioTracks()[0].enabled = false;</find>
       <find>giveWord</find>
       <find>giveword</find>
       <find>addpeer</find>
@@ -105,6 +103,7 @@
       <find>channels</find>
       <find>disconnec</find>
       <find>socket.cha</find>
+      <find>delete socket[id]</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -221,12 +220,12 @@
       <updated>1520830460412</updated>
       <workItem from="1520830463659" duration="371000" />
       <workItem from="1521250748325" duration="1322000" />
-      <workItem from="1521263744152" duration="3212000" />
+      <workItem from="1521263744152" duration="3549000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16341000" />
+    <option name="totallyTimeSpent" value="16678000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="49" width="1346" height="699" extended-state="0" />
@@ -431,7 +430,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
+        <state relative-caret-position="594">
           <caret line="66" column="19" lean-forward="false" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
           <folding />
         </state>
@@ -439,8 +438,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/signaling-server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="68" column="9" lean-forward="true" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
+        <state relative-caret-position="146">
+          <caret line="149" column="57" lean-forward="false" selection-start-line="149" selection-start-column="57" selection-end-line="149" selection-end-column="57" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

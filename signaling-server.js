@@ -147,6 +147,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('relayRoomMaster', function(request) {
         var channel_name = request;
         var requester = socket.id;
+        console.log( "masteeeers: \n\n\n\n\n\n" + masters )
         if (!(channel_name in masters)){
             masters[channel_name] = socket.id;
             console.log( "room master: " + socket.id  );
