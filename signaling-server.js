@@ -68,6 +68,10 @@ io.sockets.on('connection', function (socket) {
             return;
         }
 
+        if (!(channel in masters)) {
+            masters[channel] = socket.id;
+        }
+
         if (!(channel in channels)) {
             channels[channel] = {};
         }
@@ -148,22 +152,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('relayRoomMaster', function(request) {
         var channel_name = request;
         var requester = socket.id;
-        if (!(channel_name in masters)){
-            console.log( "is not in masters" );
-            masters[channel_name] = socket.id;
-            console.log( "room master: " + socket.id  );
-            sockets[requester].emit('roomMaster', {
-                'peer_id': socket.id, 
-                'roomMaster': socket.id, 
-                'isRoomMaster': true });
-        }else{
-            console.log( "is in masters" );
-            console.log( "room master: " + masters[channel_name]  );
-            sockets[requester].emit('roomMaster', {
-                    'peer_id': socket.id, 
-                    'roomMaster': masters[channel_name], 
-                    'isRoomMaster': masters[channel_name] == socket.id });
-        }
+        console.log( "is not in masters" );
+        console.log( "room master: " + masters[channel_name]  );
+        sockets[requester].emit('roomMaster', {
+            'peer_id': socket.id,
+            'roomMaster': masters[channel_name],
+            'isRoomMaster': masters[channel_name] === socket.id });
+
     });
     socket.on('relayAskForWord', function(request) {
         var channel_name = request.channel;

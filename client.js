@@ -250,7 +250,7 @@ function init() {
     signaling_socket.on('roomMaster', function(config) {
         console.log('roomMaster: ', config);
         room_master = config.isRoomMaster;
-	master = config.roomMaster;
+	    master = config.roomMaster;
     });
 
     signaling_socket.on('askForWord', function(config) {
