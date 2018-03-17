@@ -97,9 +97,10 @@ io.sockets.on('connection', function (socket) {
             return;
         }
 
-        delete socket.channels[channel];
+        delete socket[socket_id].channels[channel];
 
         for (id in channels[channel]) {
+            delete socket[id].channels[channel];
             channels[channel][id].emit('removePeer', {'peer_id': socket.id});
             socket.emit('removePeer', {'peer_id': id});
         }
