@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7c11681-5b15-456f-ae23-e1ddd490117b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/client.js" afterPath="$PROJECT_DIR$/client.js" />
       <change beforePath="$PROJECT_DIR$/signaling-server.js" afterPath="$PROJECT_DIR$/signaling-server.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -16,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="signaling-server.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="signaling-server.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/signaling-server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="104" column="55" lean-forward="true" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
+            <state relative-caret-position="-52">
+              <caret line="59" column="19" lean-forward="false" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="19" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -28,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="client.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="client.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="52" column="35" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="35" />
+            <state relative-caret-position="162">
+              <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -74,10 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ddstream</find>
-      <find>mute</find>
-      <find>muteall</find>
-      <find>mutea</find>
       <find>setSpeakers</find>
       <find>local_media_stream</find>
       <find>room_master</find>
@@ -104,6 +102,10 @@
       <find>removepee</find>
       <find>masters</find>
       <find>disconnect</find>
+      <find>connect</find>
+      <find>setup_local_media</find>
+      <find>join_chat_channel</find>
+      <find>join</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -114,8 +116,8 @@
       <list>
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/local.txt" />
-        <option value="$PROJECT_DIR$/client.js" />
         <option value="$PROJECT_DIR$/signaling-server.js" />
+        <option value="$PROJECT_DIR$/client.js" />
       </list>
     </option>
   </component>
@@ -220,12 +222,12 @@
       <updated>1520830460412</updated>
       <workItem from="1520830463659" duration="371000" />
       <workItem from="1521250748325" duration="1322000" />
-      <workItem from="1521263744152" duration="5198000" />
+      <workItem from="1521263744152" duration="5671000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18327000" />
+    <option name="totallyTimeSpent" value="18800000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="49" width="1346" height="699" extended-state="0" />
@@ -428,21 +430,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="52" column="35" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/signaling-server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="104" column="55" lean-forward="true" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
+        <state relative-caret-position="-52">
+          <caret line="59" column="19" lean-forward="false" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="19" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -109,7 +109,7 @@ io.sockets.on('connection', function (socket) {
         console.log( "disconected socket: \n\n\n\n\n\n" + socket_id );
         console.log( "channel master: \n\n\n\n\n\n" + masters[channel] );
         console.log( "channel name: \n\n\n\n\n\n" + channel );
-        if (socket_id == masters[channel]){
+        if (socket_id === masters[channel]){
             for (id in channels[channel]) {
                 channels[channel][id].emit('roomDestroyed');
                 socket.emit('removePeer', {'peer_id': id});
