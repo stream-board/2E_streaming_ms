@@ -19,8 +19,8 @@
       <file leaf-file-name="signaling-server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/signaling-server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="154" column="44" lean-forward="false" selection-start-line="154" selection-start-column="44" selection-end-line="154" selection-end-column="44" />
+            <state relative-caret-position="434">
+              <caret line="104" column="55" lean-forward="true" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -31,8 +31,8 @@
       <file leaf-file-name="client.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="235" column="34" lean-forward="false" selection-start-line="235" selection-start-column="25" selection-end-line="235" selection-end-column="34" />
+            <state relative-caret-position="326">
+              <caret line="52" column="35" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -99,11 +99,11 @@
       <find>speakers</find>
       <find>part</find>
       <find>channel, socket_id</find>
-      <find>disconnect</find>
       <find>disconnec</find>
       <find>disconected socket</find>
       <find>removepee</find>
       <find>masters</find>
+      <find>disconnect</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -220,12 +220,12 @@
       <updated>1520830460412</updated>
       <workItem from="1520830463659" duration="371000" />
       <workItem from="1521250748325" duration="1322000" />
-      <workItem from="1521263744152" duration="4974000" />
+      <workItem from="1521263744152" duration="5198000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18103000" />
+    <option name="totallyTimeSpent" value="18327000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="49" width="1346" height="699" extended-state="0" />
@@ -430,16 +430,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="235" column="34" lean-forward="false" selection-start-line="235" selection-start-column="25" selection-end-line="235" selection-end-column="34" />
+        <state relative-caret-position="326">
+          <caret line="52" column="35" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/signaling-server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="154" column="44" lean-forward="false" selection-start-line="154" selection-start-column="44" selection-end-line="154" selection-end-column="44" />
+        <state relative-caret-position="434">
+          <caret line="104" column="55" lean-forward="true" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

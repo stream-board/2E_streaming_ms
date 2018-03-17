@@ -63,8 +63,6 @@ io.sockets.on('connection', function (socket) {
         var userdata = config.userdata;
         if( speakers[channel] == null )
             speakers[channel] = {};
-        if( masters[channel] == null )
-            masters[channel] = socket.id;
         if (channel in socket.channels) {
             console.log("["+ socket.id + "] ERROR: already joined ", channel);
             return;
@@ -110,6 +108,7 @@ io.sockets.on('connection', function (socket) {
             //delete speakers[channel][id];
         console.log( "disconected socket: \n\n\n\n\n\n" + socket_id );
         console.log( "channel master: \n\n\n\n\n\n" + masters[channel] );
+        console.log( "channel name: \n\n\n\n\n\n" + channel );
         if (socket_id == masters[channel]){
             for (id in channels[channel]) {
                 channels[channel][id].emit('roomDestroyed');
