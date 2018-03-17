@@ -32,8 +32,8 @@
       <file leaf-file-name="client.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="75" column="51" lean-forward="false" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+            <state relative-caret-position="200">
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -75,7 +75,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.css</find>
       <find>local_video</find>
       <find>child</find>
       <find>track</find>
@@ -94,7 +93,6 @@
       <find>local_media_stream</find>
       <find>room_master</find>
       <find>speakers</find>
-      <find>roomMast</find>
       <find>roomMas</find>
       <find>closed</find>
       <find>destr</find>
@@ -105,6 +103,8 @@
       <find>ini</find>
       <find>init</find>
       <find>sockets</find>
+      <find>roomMast</find>
+      <find>getUserMedia</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -221,12 +221,12 @@
       <updated>1520830460412</updated>
       <workItem from="1520830463659" duration="371000" />
       <workItem from="1521250748325" duration="1322000" />
-      <workItem from="1521263744152" duration="2326000" />
+      <workItem from="1521263744152" duration="2589000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15455000" />
+    <option name="totallyTimeSpent" value="15718000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="49" width="1346" height="699" extended-state="0" />
@@ -441,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="75" column="51" lean-forward="false" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+        <state relative-caret-position="200">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding />
         </state>
       </provider>

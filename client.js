@@ -39,14 +39,13 @@ function init() {
     initVars();
     signaling_socket = io(SIGNALING_SERVER);
     //signaling_socket = io();
-    //checkRoomMaster( channel );
+    checkRoomMaster( channel );
     signaling_socket.on('connect', function() {
         console.log("Connected to signaling server");
         setup_local_media(function() {
             /* once the user has given us access to their
              * microphone/camcorder, join the channel and start peering up */
             channel = prompt("Please enter a name for your room: ", DEFAULT_CHANNEL);
-            checkRoomMaster( channel );
             join_chat_channel(channel, {'whatever-you-want-here': 'stuff'});
 
         });
