@@ -63,7 +63,8 @@ function init() {
 
         peers = {};
         peer_media_elements = {};
-        peer_html_videos = {}
+        peer_html_videos = {};
+        initVars();
     });
     function join_chat_channel(channel, userdata) {
         signaling_socket.emit('join', {"channel": channel, "userdata": userdata});

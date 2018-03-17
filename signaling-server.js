@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
             return;
         }
 
-        delete socket[socket_id].channels[channel];
+        delete socket.channels[channel];
 
         for (id in channels[channel]) {
             delete socket[id].channels[channel];
