@@ -41,7 +41,12 @@ function init() {
     //signaling_socket = io();
     signaling_socket.on('connect', function() {
         console.log("Connected to signaling server");
-        checkRoomMaster( channel );
+        //checkRoomMaster( channel );
+        signaling_socket.emit('relayRoomMaster', channel, function (config) {
+            console.log('roomMaster: ', config);
+            room_master = config.isRoomMaster;
+            master = config.roomMaster;
+        });
         setup_local_media(function() {
             /* once the user has given us access to their
              * microphone/camcorder, join the channel and start peering up */
