@@ -11,18 +11,32 @@ var ICE_SERVERS = [
     {url:"stun:stun.l.google.com:19302"}
 ];
 
-var signaling_socket = null;   /* our socket.io connection to our webserver */
-var local_media_stream = null; /* our own microphone / webcam */
-var peers = {};                /* keep track of our peer connections, indexed by peer_id (aka socket.io id) */
-var peer_media_elements = {};  /* keep track of our <video>/<audio> tags, indexed by peer_id */
-var peer_html_videos = {};
-var room_master = false;
-var master = null;
+function initVars() {
+    signaling_socket = null;   /* our socket.io connection to our webserver */
+    local_media_stream = null; /* our own microphone / webcam */
+    peers = {};                /* keep track of our peer connections, indexed by peer_id (aka socket.io id) */
+    peer_media_elements = {};  /* keep track of our <video>/<audio> tags, indexed by peer_id */
+    peer_html_videos = {};
+    room_master = false;
+    master = null;
+    speakers = {};
+    am_i_speaker = false;
+}
+
+var signaling_socket;   /* our socket.io connection to our webserver */
+var local_media_stream; /* our own microphone / webcam */
+var peers;                /* keep track of our peer connections, indexed by peer_id (aka socket.io id) */
+var peer_media_elements;  /* keep track of our <video>/<audio> tags, indexed by peer_id */
+var peer_html_videos;
+var room_master;
+var master;
 var channel;
-var speakers = {};
-var am_i_speaker = false;
+var speakers;
+var am_i_speaker;
+
 function init() {
     console.log("Connecting to signaling server");
+    initVars();
     signaling_socket = io(SIGNALING_SERVER);
     //signaling_socket = io();
     checkRoomMaster( channel );
@@ -283,6 +297,7 @@ function init() {
         document.body.innerHTML = '';
         var info = document.createTextNode("Tu sala ha cerrado");
         $('body').append(info);
+        initVars();
     });
 
 }

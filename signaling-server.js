@@ -103,13 +103,14 @@ io.sockets.on('connection', function (socket) {
             channels[channel][id].emit('removePeer', {'peer_id': socket.id});
             socket.emit('removePeer', {'peer_id': id});
         }
-        if( socket_id in speakers[channel] )
-            delete speakers[channel][id];
+        //if( socket_id in speakers[channel] )
+            //delete speakers[channel][id];
         console.log( "disconected socket: \n\n\n\n\n\n" + socket_id );
         console.log( "channel master: \n\n\n\n\n\n" + masters[channel] );
         if (socket_id == masters[channel]){
             for (id in channels[channel]) {
                 channels[channel][id].emit('roomDestroyed');
+                socket.emit('removePeer', {'peer_id': id});
             }
             delete channels[channel];
             delete masters[channel];
