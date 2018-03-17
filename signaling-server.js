@@ -63,6 +63,8 @@ io.sockets.on('connection', function (socket) {
         var userdata = config.userdata;
         if( speakers[channel] == null )
             speakers[channel] = {};
+        if( masters[channel] == null )
+            masters[channel] = socket.id;
         if (channel in socket.channels) {
             console.log("["+ socket.id + "] ERROR: already joined ", channel);
             return;
@@ -92,21 +94,6 @@ io.sockets.on('connection', function (socket) {
     function part(channel, socket_id) {
         console.log("["+ socket.id + "] part ");
 
-        if (socket_id == masters[channel]){
-            for (id in channels[channel]) {
-                channels[channel][id].emit('roomDestroyed');
-                socket.emit('removePeer', {'peer_id': id});
-            }
-            delete channels[channel];
-            delete masters[channel];
-            delete speakers[channel];
-
-        }else if(masters[channel] == null){
-            console.log("["+ socket.id + "] WARN: channel does not exist anymore", channel);
-        }else{
-            delete channels[channel][socket.id];
-        }
-
         if (!(channel in socket.channels)) {
             console.log("["+ socket.id + "] ERROR: not in ", channel);
             return;
@@ -123,7 +110,20 @@ io.sockets.on('connection', function (socket) {
             //delete speakers[channel][id];
         console.log( "disconected socket: \n\n\n\n\n\n" + socket_id );
         console.log( "channel master: \n\n\n\n\n\n" + masters[channel] );
+        if (socket_id == masters[channel]){
+            for (id in channels[channel]) {
+                channels[channel][id].emit('roomDestroyed');
+                socket.emit('removePeer', {'peer_id': id});
+            }
+            delete channels[channel];
+            delete masters[channel];
+            delete speakers[channel];
 
+        }else if(masters[channel] == null){
+            console.log("["+ socket.id + "] WARN: channel does not exist anymore", channel);
+        }else{
+            delete channels[channel][socket.id];
+        }
     }
     socket.on('part', part);
 
