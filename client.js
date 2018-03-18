@@ -1,6 +1,6 @@
 /** CONFIG **/
-//var SIGNALING_SERVER = "ws://54.224.164.98:8444";
-var SIGNALING_SERVER = "ws://localhost:8444";
+var SIGNALING_SERVER = "ws://54.224.164.98:8444";
+//var SIGNALING_SERVER = "ws://localhost:8444";
 var USE_AUDIO = true;
 var USE_VIDEO = true;
 var DEFAULT_CHANNEL = 'some-global-channel-name';
