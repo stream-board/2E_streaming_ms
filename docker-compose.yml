@@ -1,0 +1,7 @@
+version: "2"
+services:
+    signalign_server_ms:
+            build: .
+            ports:
+                - "8444:8444"
+            tty: true
