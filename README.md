@@ -19,13 +19,6 @@ docker-compose build
 docker-compose up
 ```
 
-Websocket events
-=======
-
-join: 
-
-disconnect: 
-
 ## Socket Events
 * join
   Triggers when a user joins a room. When it triggers:
