@@ -46,10 +46,10 @@ docker-compose up
   
 * relayAskForWord
   Triggers when a client asks for the word. When it triggers:
-   * Emits a message of type askForWord to the room master that contains the id of the client who asked for the word.
+  * Emits a message of type askForWord to the room master that contains the id of the client who asked for the word.
    
- * relayGiveWord
- Triggers when a room master gives the word to a client. When it triggers:
+* relayGiveWord
+  Triggers when a room master gives the word to a client. When it triggers:
   * Adds the client id to a dictionary that keeps track of the clients that are allowed to talk in the room.
   * Emits a message of type giveWord to every client in the room to let them know that the client is allowed to talk.
  
