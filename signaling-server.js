@@ -200,6 +200,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('relayMuteMyself', function(request) {
         var id = socket.id;
+        var channel_name = request.channel;
         delete speakers[channel_name][id];
         for (id in channels[channel_name]) {
             channels[channel_name][id].emit('mute', {'peer_id': id});
@@ -208,6 +209,7 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('relayUnMuteMyself', function(request) {
         var id = socket.id;
+        var channel_name = request.channel;
         speakers[channel_name][id] = true;
         for (id in channels[channel_name]) {
             channels[channel_name][id].emit('unMute', {'peer_id': id});
