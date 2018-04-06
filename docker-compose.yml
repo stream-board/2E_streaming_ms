@@ -1,6 +1,6 @@
 version: "2"
 services:
-    signalign_server_ms:
+    straming-ms:
             build: .
             ports:
                 - "8444:8444"
