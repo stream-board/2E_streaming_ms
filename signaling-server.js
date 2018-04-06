@@ -197,5 +197,20 @@ io.sockets.on('connection', function (socket) {
             channels[channel_name][id].emit('muteAll', {'my_peer_id': id, 'master':masters[channel_name]});
         }
     });
+
+    socket.on('relayMuteMyself', function(request) {
+        var id = socket.id;
+        delete speakers[channel_name][id];
+        for (id in channels[channel_name]) {
+            channels[channel_name][id].emit('mute', {'peer_id': id});
+        }
+    });
     
+    socket.on('relayUnMuteMyself', function(request) {
+        var id = socket.id;
+        speakers[channel_name][id] = true;
+        for (id in channels[channel_name]) {
+            channels[channel_name][id].emit('unMute', {'peer_id': id});
+        }
+    });
 });
